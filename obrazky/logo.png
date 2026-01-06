@@ -1,1 +1,259 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <title>Digitálny pas študenta</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background-color: #000;
+      color: #fff;
+    }
+
+    header {
+      background: #000;
+      border-bottom: 1px solid #555;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo img {
+      height: 42px;
+      filter: grayscale(100%) brightness(120%);
+    }
+
+    header h1 {
+      font-size: 20px;
+      letter-spacing: 1px;
+      margin: 0;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      color: #fff;
+      margin-left: 16px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    nav button:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      padding: 40px;
+      display: none;
+    }
+
+    .container.active {
+      display: block;
+    }
+
+    .card {
+      background: #0d0d0d;
+      border: 1px solid #333;
+      padding: 24px;
+      margin-bottom: 24px;
+      border-radius: 6px;
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      margin-top: 8px;
+      margin-bottom: 16px;
+      padding: 10px;
+      background: #000;
+      border: 1px solid #444;
+      color: #fff;
+    }
+
+    button.primary {
+      background: #fff;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button.primary:hover {
+      opacity: 0.85;
+    }
+
+    .result {
+      margin-top: 16px;
+      font-weight: bold;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+
+    th, td {
+      border-bottom: 1px solid #333;
+      padding: 8px;
+      text-align: left;
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+      margin-top: 16px;
+      font-size: 12px;
+    }
+
+    .day {
+      border: 1px solid #333;
+      padding: 10px;
+    }
+
+    .day.event {
+      background: #222;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <img src="obrazky/logo.png" alt="Logo">
+    <h1>Digitálny pas študenta</h1>
+  </div>
+  <nav>
+    <button onclick="showSection('home')">Domov</button>
+    <button onclick="showSection('profil')">Profil</button>
+    <button onclick="showSection('zrucnosti')">Zručnosti</button>
+    <button onclick="showSection('certifikaty')">Certifikáty</button>
+    <button onclick="showSection('test')">Test</button>
+    <button onclick="showSection('prilezitosti')">Príležitosti</button>
+  </nav>
+</header>
+
+<section id="home" class="container active">
+  <div class="card">
+    <h2>O projekte</h2>
+    <p>Digitálny pas študenta je edukačný projekt vytvorený v rámci stredoškolskej odbornej činnosti. Jeho cieľom je pomôcť mladým ľuďom lepšie porozumieť vlastným globálnym a digitálnym zručnostiam, systematicky ich rozvíjať a zorientovať sa v domácich aj zahraničných vzdelávacích príležitostiach.</p>
+  </div>
+</section>
+
+<section id="profil" class="container">
+  <div class="card">
+    <h2>Profil študenta</h2>
+    <input placeholder="Meno a priezvisko" />
+    <input placeholder="Škola" />
+    <input placeholder="Študijný odbor" />
+    <textarea placeholder="Stručný profil / o mne"></textarea>
+  </div>
+</section>
+
+<section id="zrucnosti" class="container">
+  <div class="card">
+    <h2>Moje zručnosti</h2>
+    <label>Tímová spolupráca</label>
+    <select><option>Začiatočník</option><option>Pokročilý</option><option>Výborný</option></select>
+    <label>Komunikácia</label>
+    <select><option>Začiatočník</option><option>Pokročilý</option><option>Výborný</option></select>
+    <label>Digitálne zručnosti</label>
+    <select><option>Začiatočník</option><option>Pokročilý</option><option>Výborný</option></select>
+    <label>Iné</label>
+    <input placeholder="Doplň vlastnú zručnosť" />
+  </div>
+</section>
+
+<section id="certifikaty" class="container">
+  <div class="card">
+    <h2>Certifikáty a skúsenosti</h2>
+    <input type="file" multiple />
+    <p>Možnosť nahrať certifikáty alebo potvrdenia.</p>
+  </div>
+</section>
+
+<section id="test" class="container">
+  <div class="card">
+    <h2>Test globálnych zručností</h2>
+    <p>Odpovedz na otázky podľa toho, ako sa vnímaš.</p>
+    <div id="questions"></div>
+    <button class="primary" onclick="evaluateTest()">Vyhodnotiť test</button>
+    <div class="result" id="result"></div>
+  </div>
+</section>
+
+<section id="prilezitosti" class="container">
+  <div class="card">
+    <h2>Kalendár príležitostí</h2>
+    <p>Klikni na zvýraznené dni.</p>
+    <div class="calendar">
+      <div class="day">1</div><div class="day event">2 Erasmus+</div><div class="day">3</div><div class="day">4</div><div class="day event">5 DiscoverEU</div><div class="day">6</div><div class="day">7</div>
+      <div class="day">8</div><div class="day">9</div><div class="day event">10 Projekt</div><div class="day">11</div><div class="day">12</div><div class="day event">13 Erasmus+</div><div class="day">14</div>
+    </div>
+
+    <table>
+      <tr>
+        <th>Program</th><th>Typ</th><th>Termín</th><th>Poznámka</th>
+      </tr>
+      <tr><td>Erasmus+</td><td>Štúdium</td><td>sep 2026 – feb 2027</td><td>Prihlášky jar 2026</td></tr>
+      <tr><td>Erasmus+</td><td>Stáž</td><td>leto 2026</td><td>2–6 mesiacov</td></tr>
+      <tr><td>DiscoverEU</td><td>Cestovanie</td><td>júl – sep 2026</td><td>18–20 roční</td></tr>
+      <tr><td>Projekty EÚ</td><td>Workshopy</td><td>priebežne</td><td>Kurz / mobilita</td></tr>
+    </table>
+
+    <p style="font-size:13px; color:#aaa;">* Termíny sú orientačné a slúžia na demonštračné účely.</p>
+  </div>
+</section>
+
+<script>
+  const questionsData = [
+    "Ako často pracuješ v tíme?",
+    "Ako dobre zvládaš komunikáciu v cudzom jazyku?",
+    "Ako sa orientuješ v digitálnych nástrojoch?",
+    "Vieš riešiť problémy samostatne?",
+    "Ako reaguješ na nové situácie?",
+    "Ako hodnotíš svoje kultúrne povedomie?",
+    "Vieš si organizovať čas?",
+    "Ako zvládaš stres?",
+    "Vieš pracovať s informáciami online?",
+    "Máš záujem sa ďalej vzdelávať?"
+  ];
+
+  const questionsContainer = document.getElementById('questions');
+  questionsData.forEach((q) => {
+    questionsContainer.innerHTML += `<p>${q}</p><select class="q"><option value="1">Skôr nie</option><option value="2">Priemerne</option><option value="3">Áno</option></select>`;
+  });
+
+  function showSection(id) {
+    document.querySelectorAll('.container').forEach(sec => sec.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function evaluateTest() {
+    let score = 0;
+    document.querySelectorAll('.q').forEach(q => score += Number(q.value));
+    let text = score <= 15 ? "Základná úroveň globálnych zručností" : score <= 23 ? "Stredná úroveň globálnych zručností" : "Vysoká úroveň globálnych zručností";
+    document.getElementById('result').innerText = text;
+  }
+</script>
+
+</body>
+</html>
+
 
